@@ -5,6 +5,7 @@ import cors from 'cors';
 import userRouter from './routers/user.router.js';
 import disasterRequestRouter from './routers/request.router.js'
 import newsRouter from './routers/news.router.js';
+import botRouter from './routers/chat.router.js';
 //import disasterReportRouter from './routers/report.router.js'
 
 import {dbconnect} from './config/database.config.js';
@@ -25,6 +26,7 @@ app.use(cors({
 app.use('/api/users',userRouter);
 app.use('/api/requests',disasterRequestRouter);
 app.use('/api/news',newsRouter);
+app.use('/api/chatbot',botRouter);
 //app.use('/api/reports', disasterReportRouter);
 
 const PORT = 5000;
