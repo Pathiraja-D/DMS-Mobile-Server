@@ -1,5 +1,6 @@
 import { connect, set } from "mongoose";
 import { UserModel } from "../models/user.model.js";
+import { ChatMessageModel } from "../models/livechat.model.js";
 import { DisasterRequestModel } from "../models/disasterRequest.model.js";
 import { sample_user } from "../data.js";
 import { sample_news } from "../data.js";
@@ -19,11 +20,13 @@ export const dbconnect = async () => {
 
         await seedUsers();
         await seedNews();
+        
 
         console.log('Connected successfully!');
 
         // Watch for changes only after seeding is done
         await watchUsers();
+        await watchMessages();
     } catch (error) {
         console.log(error);
     }
@@ -39,6 +42,20 @@ async function watchUsers(){
 
     const userList = await UserModel.find();
     console.log('Updated user list:', userList); 
+    });
+
+    await new Promise(()=>{});
+}
+
+async function watchMessages(){
+    
+    const mesageStream = ChatMessageModel.watch();
+
+    mesageStream.on('change', async (change) => {
+        console.log(change);
+
+    const messageList = await ChatMessageModel.find();
+    console.log('Updated messages list:', messageList); 
     });
 
     await new Promise(()=>{});
