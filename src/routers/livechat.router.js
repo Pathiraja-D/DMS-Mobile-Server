@@ -11,7 +11,7 @@ router.post('/send', handler(async (req, res) => {
         const {role, userName, message} = req.body;
     
         const newMessage = {
-            messageId: uuidv4(),
+            messageID: (await generateID(userName)),
             role,
             userName,
             message,
@@ -25,12 +25,9 @@ router.post('/send', handler(async (req, res) => {
         }
 }));
 
-
-
-
-
-
-
+const generateID = async(userName) => {
+    return userName+Date.now().toString();
+};
 
 
 export default router;
